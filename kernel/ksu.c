@@ -60,6 +60,9 @@
 #include "feature/adb_root.h"
 #include "feature/kernel_umount.h"
 #include "feature/selinux_hide.h"
+#ifdef CONFIG_KSU_SUSFS
+#include "feature/avc_spoof.h"
+#endif
 #include "feature/sucompat.h"
 #include "feature/sulog.h"
 #include "runtime/ksud.h"
@@ -110,6 +113,9 @@
 #include "feature/adb_root.c"
 #include "feature/kernel_umount.c"
 #include "feature/selinux_hide.c"
+#ifdef CONFIG_KSU_SUSFS
+#include "feature/avc_spoof.c"
+#endif
 #include "feature/sucompat.c"
 #include "feature/sulog.c"
 #include "runtime/ksud.c"
@@ -249,6 +255,9 @@ static int __init kernelsu_init(void)
 	ksu_kernel_umount_init(); // so the feature is registered
 
 	ksu_selinux_hide_init(); // so the feature is registered
+#ifdef CONFIG_KSU_SUSFS
+	ksu_avc_spoof_feature_init(); // so the feature is registered
+#endif
 
 #ifdef CONFIG_KSU_FEATURE_SULOG	
 	ksu_sulog_init(); // so the feature is registered
